@@ -1,3 +1,7 @@
+#Kenny
+
+
+#Librearies need to be installed
 import os.path 
 import datetime 
 import pickle 
@@ -12,6 +16,7 @@ import util
 from test import test
 
 
+#blueprint for creating objects
 class App:
     def __init__(self):
         self.main_window = tk.Tk()
@@ -74,3 +79,61 @@ class App:
                 f.close()
         
         os.remove(unknown_img_path)
+        
+#Fouzan
+
+    def register_new_user(self):
+        self.register_new_user_window = tk.Toplevel(self.main_window)
+        self.register_new_user_window.geometry("1200x520+370+120")
+        
+        self.accept_button_register_new_user_window = util.get_button(self.register_new_user_window, 'Accept', 'green', self.accept_register_new_user)
+        self.accept_button_register_new_user_window.place(x = 750, y = 300)
+
+        self.try_again_button_register_new_user_window = util.get_button(self.register_new_user_window, 'Try Again', 'red', self.try_again_register_new_user)
+        self.accept_button_register_new_user_window.place(x = 750, y = 300)
+
+
+        self.capture_label = util.get_img_label(self.register_new_user_window)
+        self.capture_label.place(x=10, y=0, width=700, height=500)
+
+
+        self.add_img_to_label(self.capture_label)
+
+        self.entry_text_register_new_user = util.get_entry_text(self.register_new_user_window)
+        self.entry_text_register_new_user.place(x = 750, y = 150)
+
+        self.text_label_register_new_user = util.get_entry_text(self.register_new_user_window, 'Please, input a username:')
+        self.text_label_register_new_user.place(x = 750, y = 70)
+
+
+    def try_again_register_new_user(self):
+        self.register_new_user_window_destroy()
+
+
+    def add_img_to_label(self, label):
+        imgtk = ImageTk.PhotoImage(image=self.most_recent_capture_pil)
+        label.imgtk = imgtk
+        label.configure(image=imgtk)
+
+        self.register_new_user_capture = self.most_recent_capture_arr()
+
+
+    def start(self):
+        self.main_window.mainloop()
+
+
+    def accept_register_new_user(self):
+        name = self.entry_text_register_new_user.get(1.0 , "emd-1c")
+
+        cv2.inwrite(os.path.join(self.db_dir , '{}.jpg'.format(name) , self.register_new_user_capture))
+
+        util.msg_box('Success!' , 'User was registered successfully')
+
+        self.register_new_user_window.destroy()
+
+if __name__ = "__main__" #idk what this means
+    app = App()
+    app.start()
+            
+        
+        
