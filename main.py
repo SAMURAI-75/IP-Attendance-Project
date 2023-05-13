@@ -47,7 +47,7 @@ class App:
         if 'cap' not in self._dic_:
             self.cap = cv2.VideoCapture(2)
 
-        self.label = label
+        self._label = label
         self.process_webcam()
 
     def process_webcam(self):
@@ -123,7 +123,7 @@ class App:
 
 
     def accept_register_new_user(self):
-        name = self.entry_text_register_new_user.get(1.0 , "emd-1c")
+        name = self.entry_text_register_new_user.get(1.0 , "end-1c")
 
         cv2.inwrite(os.path.join(self.db_dir , '{}.jpg'.format(name) , self.register_new_user_capture))
 
