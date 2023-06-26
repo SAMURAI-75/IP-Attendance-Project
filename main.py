@@ -59,12 +59,34 @@ class App:
         self._label.after(20, self.process_webcam)
 
     def login(self):
+        """
+        label = (
+                image=self.most_recent_capture_arr,
+                model_dir =='/Users/fouzan/Documents/Python Projects/IP Project/.face.jpg',
+                device_id=0
+                )
 
-        unknown_img_path = './.face.jpg'
+        if label == 1:
+
+            name = util.recognize(self.most_recent_capture_arr, self.db_dir)
+
+            if name in ['unknown_person', 'no_persons_found']:
+                util.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
+            else:
+                util.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
+                with open(self.log_path, 'a') as f:
+                    f.write('{},{},in\n'.format(name, datetime.datetime.now()))
+                    f.close()
+
+        else:
+            util.msg_box('Hey, you are a spoofer!', 'You are fake !')
+
+        """
+        unknown_img_path = "/Users/fouzan/Documents/Python Projects/IP Project/.face.jpg"
         
         cv2.imwrite(unknown_img_path, self.most_recent_capture_arr)
 
-        output = str(subprocess.check_output(['face_recognition, self.db_dir, unknown_img_path']))
+        output = str(subprocess.check_output([face_recognition_models, self.db_dir, unknown_img_path]))
         name = output.split(',')[1][:-3]
 
         if name in ['unknown_person', 'no_persons_found']:
@@ -87,7 +109,7 @@ class App:
         self.accept_button_register_new_user_window.place(x = 750, y = 300)
 
         self.try_again_button_register_new_user_window = util.get_button(self.register_new_user_window, 'Try Again', 'grey', self.try_again_register_new_user , fg = 'black')
-        self.accept_button_register_new_user_window.place(x = 750, y = 300)
+        self.try_again_button_register_new_user_window.place(x = 750, y = 400)
 
 
         self.capture_label = util.get_img_label(self.register_new_user_window)
@@ -96,17 +118,16 @@ class App:
 
         self.add_img_to_label(self.capture_label)
 
-        #bard code
+        #bard code was wrong.
         self.entry_text_register_new_user = util.get_entry_text(self.register_new_user_window)
-
         self.entry_text_register_new_user.place(x = 750, y = 150)
 
-        self.text_label_register_new_user = util.get_entry_text(self.register_new_user_window)
-        self.text_label_register_new_user.place(x = 750, y = 70)
+        self.text_label_register_new_user = util.get_text_label(self.register_new_user_window,"Please Enter Your Name:")
+        self.text_label_register_new_user.place(x = 750, y = 100)
 
 
     def try_again_register_new_user(self):
-        self.register_new_user_window_destroy()
+        self.register_new_user_window.destroy()
 
 
     def add_img_to_label(self, label):
