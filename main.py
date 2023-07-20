@@ -3,6 +3,7 @@
 
 #Librearies need to be installed
 import os.path 
+import time
 import datetime 
 import pickle 
 import subprocess 
@@ -37,7 +38,8 @@ class App:
         if not os.path.exists(self.db_dir):
             os.mkdir(self.db_dir)
 
-        self.log_path = ' ./log.txt'
+        self.log_path = './log.txt'
+
 
     def add_webcam(self, label):
         if 'cap' not in self.__dict__:
@@ -59,44 +61,35 @@ class App:
         self._label.after(20, self.process_webcam)
 
     def login(self):
-        """
-        label = (
-                image=self.most_recent_capture_arr,
-                model_dir =='/Users/fouzan/Documents/Python Projects/IP Project/.face.jpg',
-                device_id=0
-                )
-
-        if label == 1:
-
-            name = util.recognize(self.most_recent_capture_arr, self.db_dir)
-
-            if name in ['unknown_person', 'no_persons_found']:
-                util.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
-            else:
-                util.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
-                with open(self.log_path, 'a') as f:
-                    f.write('{},{},in\n'.format(name, datetime.datetime.now()))
-                    f.close()
-
-        else:
-            util.msg_box('Hey, you are a spoofer!', 'You are fake !')
-
-        """
+        
         unknown_img_path = "/Users/fouzan/Documents/Python Projects/IP Project/.face.jpg"
         
         cv2.imwrite(unknown_img_path, self.most_recent_capture_arr)
 
-        output = str(subprocess.check_output([face_recognition_models, self.db_dir, unknown_img_path]))
-        name = output.split(',')[1][:-3]
+        output = str(subprocess.check_output(['face_recognition', self.db_dir,unknown_img_path]))
+        print(output)
+        n1 = output.split(',')[::-1]
+        n2 = n1[0].split('\\')
 
-        if name in ['unknown_person', 'no_persons_found']:
-            util.msg_box('Oh no...', 'Unkown user. Please register new user or try again.')
-        else:
-            util.msg_box('Welcome back.', 'Welcome, {}'.format(name))
-            with open(self.logpath, 'a') as f:
-                f.write('{},{},\n'.format(name, datetime.datetime.now()))
-                f.close()
+        namedis = "Welcome" , n2[0]
         
+        print(n2[0])
+        
+        
+        if n2[0] == 'unknown_person' or n2[0] == 'no_persons_found' :
+            util.msg_box("Login", 'Unkown Person Login Attempt')
+                         
+        else:
+            util.msg_box("Login", namedis)
+            f = open("log.txt", "a")
+            t = time.localtime()
+            current_time = time.strftime("%H:%M:%S", t)
+            l = [str(n2[0]) ,' ', str(current_time), "\n"]
+            fin = ''
+            for i in l:
+                fin += (i)
+            f.write(str(fin))
+
         os.remove(unknown_img_path)
 
 #Fouzan
