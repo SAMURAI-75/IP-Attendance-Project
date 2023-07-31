@@ -11,7 +11,7 @@ import numpy as np
 import tkinter as tk
 import cv2
 from PIL import Image, ImageTk
-import face_recognition_models
+import face_recognition_models       
 
 import util 
 #from test import test
@@ -128,7 +128,7 @@ class App:
         label.imgtk = imgtk
         label.configure(image=imgtk)
 
-        #bard code
+
         self.register_new_user_capture = Image.fromarray(self.most_recent_capture_arr)
 
 
@@ -139,13 +139,16 @@ class App:
 
     def accept_register_new_user(self):
         name = self.entry_text_register_new_user.get(1.0 , "end-1c")
+        if name == '':
+            util.msg_box('No Name','No name was provided')
+            self.register_new_user_window.destroy()
+        else:
+            
+            cv2.imwrite(os.path.join(self.db_dir , '{}.jpg'.format(name)) , np.array(self.register_new_user_capture))
 
-        #bard code
-        cv2.imwrite(os.path.join(self.db_dir , '{}.jpg'.format(name)) , np.array(self.register_new_user_capture))
+            util.msg_box('Success!' , 'User was registered successfully')
 
-        util.msg_box('Success!' , 'User was registered successfully')
-
-        self.register_new_user_window.destroy()
+            self.register_new_user_window.destroy()
 
 if __name__ == "__main__": #idk what this means
     app = App()
