@@ -1,6 +1,5 @@
 #Kenny
 
-
 #Librearies need to be installed
 import os.path 
 import time
@@ -21,13 +20,16 @@ import util
 class App:
     def __init__(self):
         self.main_window = tk.Tk()
-        self.main_window.geometry("1200x520+350+100")
+        self.main_window.geometry("1200x520+200+100")
 
         self.login_button_main_window = util.get_button(self.main_window, 'login', 'gray', self.login, fg = 'black')
-        self.login_button_main_window.place(x=750, y=200)
+        self.login_button_main_window.place(x=800, y=100)
 
         self.register_new_user_button_main_window = util.get_button(self.main_window, 'register new user', 'gray',self.register_new_user, fg='black')
-        self.register_new_user_button_main_window.place(x=750, y=400)
+        self.register_new_user_button_main_window.place(x=800, y=250)
+
+        self.users_list_button_main_window = util.get_button(self.main_window, 'Attendance', 'gray',self.user_list, fg='black')
+        self.users_list_button_main_window.place(x = 800, y = 400)
 
         self.webcam_label = util.get_img_label(self.main_window)
         self.webcam_label.place(x=10, y=0, width=700, height=500)
@@ -96,7 +98,7 @@ class App:
 
     def register_new_user(self):
         self.register_new_user_window = tk.Toplevel(self.main_window)
-        self.register_new_user_window.geometry("1200x520+370+120")
+        self.register_new_user_window.geometry("1200x520+220+120")
         
         self.accept_button_register_new_user_window = util.get_button(self.register_new_user_window, 'Accept', 'grey', self.accept_register_new_user , fg = 'black')
         self.accept_button_register_new_user_window.place(x = 750, y = 300)
@@ -149,6 +151,27 @@ class App:
             util.msg_box('Success!' , 'User was registered successfully')
 
             self.register_new_user_window.destroy()
+
+    def user_list(self):
+        import pandas as pd
+        import matplotlib.pyplot as plt
+
+        list_of_lines = []
+
+        with open('log.txt') as f:
+            lines = f.readlines()
+            for i in lines:
+                list_of_lines.append(i.split())
+
+        df = pd.DataFrame(list_of_lines,columns = ['Name','Date'])
+
+        dfnames = df.groupby('Name')
+
+        line = plt.plot(dfnames.size())
+        plt.grid(True)
+        #histogram = dfnames.size().plot(kind='hist')
+        plt.title('Students Attendance Overall')
+        plt.show()
 
 if __name__ == "__main__": #idk what this means
     app = App()
