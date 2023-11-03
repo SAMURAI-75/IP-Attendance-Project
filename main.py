@@ -2,6 +2,8 @@
 
 
 #Librearies need to be installed
+import pandas as pd
+import matplotlib.pyplot as plt
 import os.path 
 import time
 import datetime 
@@ -21,13 +23,16 @@ import util
 class App:
     def __init__(self):
         self.main_window = tk.Tk()
-        self.main_window.geometry("1200x520+350+100")
+        self.main_window.geometry("1200x520+200+100")
 
         self.login_button_main_window = util.get_button(self.main_window, 'login', 'gray', self.login, fg = 'black')
-        self.login_button_main_window.place(x=750, y=200)
+        self.login_button_main_window.place(x=800, y=100)
 
         self.register_new_user_button_main_window = util.get_button(self.main_window, 'register new user', 'gray',self.register_new_user, fg='black')
-        self.register_new_user_button_main_window.place(x=750, y=400)
+        self.register_new_user_button_main_window.place(x=800, y=250)
+
+        self.users_list_button_main_window = util.get_button(self.main_window, 'Attendance', 'gray',self.user_list, fg='black')
+        self.users_list_button_main_window.place(x = 800, y = 400)
 
         self.webcam_label = util.get_img_label(self.main_window)
         self.webcam_label.place(x=10, y=0, width=700, height=500)
@@ -96,7 +101,7 @@ class App:
 
     def register_new_user(self):
         self.register_new_user_window = tk.Toplevel(self.main_window)
-        self.register_new_user_window.geometry("1200x520+370+120")
+        self.register_new_user_window.geometry("1200x520+220+120")
         
         self.accept_button_register_new_user_window = util.get_button(self.register_new_user_window, 'Accept', 'grey', self.accept_register_new_user , fg = 'black')
         self.accept_button_register_new_user_window.place(x = 750, y = 300)
@@ -111,7 +116,6 @@ class App:
 
         self.add_img_to_label(self.capture_label)
 
-        #bard code was wrong.
         self.entry_text_register_new_user = util.get_entry_text(self.register_new_user_window)
         self.entry_text_register_new_user.place(x = 750, y = 150)
 
@@ -150,6 +154,78 @@ class App:
 
             self.register_new_user_window.destroy()
 
+    def user_list(self):
+
+        def live_graph():
+            
+            #extracting info from table and making a dataframe
+            list_of_lines = []
+
+            with open('log.txt') as f:
+                lines = f.readlines()
+                for i in lines:
+                    list_of_lines.append(i.split())
+
+            df = pd.DataFrame(list_of_lines,columns = ['Name','Date'])
+
+            dfnames = df.groupby('Name')
+
+            #graphs
+
+            line = plt.plot(dfnames.size())
+            plt.grid(True)
+            #histogram = dfnames.size().plot(kind='hist')
+            plt.title('Students Attendance Overall')
+            plt.show()
+        
+        def sample_data_graph():
+
+            #predefined values to create graphs
+            import pandas as pd
+            import numpy as np
+            import matplotlib.pyplot as plt
+            series1 = pd.Series([80,92,76,64,93],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
+            series2 = pd.Series([70,82,62,82,76],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
+            series3 = pd.Series([94,72,95,88,67],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
+            series4 = pd.Series([77,85,69,93,57],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
+            series5 = pd.Series([97,74,83,68,97],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
+            df = pd.DataFrame([series1, series2, series3, series4, series5], index= ["Jan","Feb","Mar","Apr","May"])
+            print("Example 1:", df)
+            df.plot(kind='bar', title='Attendance')
+            plt.xlabel("Months")
+            plt.ylabel('Percentage')
+            plt.show()
+            series6 = pd.Series([79,92,85,88], index=["Jan", "Feb", "Mar", "Apr"])
+            print("Example 2:")
+            print("Attendance% of Leo are:", series6)
+            df1 = pd.DataFrame(series6)
+            df1.plot(kind='bar', title='Leo Attendance%')
+            plt.show()
+            series7= pd.Series([79,97,87,83], index=["Jan", "Feb", "Mar","Apr"])
+            series8= pd.Series([89,83,92,77], index=["Jan","Feb","Mar","Apr"])
+            df2 = pd.DataFrame([series7,series8], index=["Leo", "Keanu"])
+            print("Example 3:")
+            print(df2)
+            df2.plot(kind='bar', title="Attendance% of Leo and Keanu")
+            plt.xlabel("Months")
+            plt.ylabel("Percentage")
+            plt.show()
+            print("Example 4:")
+            df.plot(kind='line', title="Attendance(Line graph)")
+            plt.xlabel("Months")
+            plt.ylabel("Percentage")
+            plt.show()
+            print("Example 5:")
+            df.plot(kind='line', marker="*", markersize=10, linewidth=3, linestyle="--")
+            plt.grid(True)
+            plt.show()
+
+
+        live_graph()
+        sample_data_graph()
+
+
 if __name__ == "__main__": #idk what this means
     app = App()
     app.start()
+
