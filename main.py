@@ -184,11 +184,11 @@ class App:
             import pandas as pd
             import numpy as np
             import matplotlib.pyplot as plt
-            series1 = pd.Series([80,92,76,64,93],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
-            series2 = pd.Series([70,82,62,82,76],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
-            series3 = pd.Series([94,72,95,88,67],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
-            series4 = pd.Series([77,85,69,93,57],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
-            series5 = pd.Series([97,74,83,68,97],index=["Zanwar", "Leo", "Tasneem","Ryan","Hobo"])
+            series1 = pd.Series([80,92,76,64,93],index=["Zanwar", "Leo", "Tasneem","Ryan","Hannah"])
+            series2 = pd.Series([70,82,62,82,76],index=["Zanwar", "Leo", "Tasneem","Ryan","Hannah"])
+            series3 = pd.Series([94,72,95,88,67],index=["Zanwar", "Leo", "Tasneem","Ryan","Hannah"])
+            series4 = pd.Series([77,85,69,93,57],index=["Zanwar", "Leo", "Tasneem","Ryan","Hannah"])
+            series5 = pd.Series([97,74,83,68,97],index=["Zanwar", "Leo", "Tasneem","Ryan","Hannah"])
             df = pd.DataFrame([series1, series2, series3, series4, series5], index= ["Jan","Feb","Mar","Apr","May"])
             print("Example 1:", df)
             df.plot(kind='bar', title='Attendance')
